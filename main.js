@@ -3,26 +3,26 @@ const port = 60001;
 const host = 'localhost';
 
 
-function writeFullPathMsg() {
-    const buff = Buffer.from('A (worker1)script/test/network/TestSimpleServer.lua\n\n16: {"hello world"}', 'utf8');
+function writeFullPathNplMsg() {
+    const buff = Buffer.from('A (worker1)script/test/network/CustomDataServer.lua\n\n16: {TestCase="TP"}', 'utf8');
     return buff;
 }
-function writeMsg() {
-    const buff = Buffer.from('A (worker1)2\n\n16: {"hello world"}', 'utf8');
+function writeNplMsg() {
+    const buff = Buffer.from('A (worker1)2\n\n16: {TestCase="TP"}', 'utf8');
     return buff;
 }
 const client = new Net.Socket();
 client.connect({ port: port, host: host }, function () {
     console.log('TCP connection established with the server.');
 
-    client.write(writeFullPathMsg());
-    client.write(writeMsg());
+    client.write(writeFullPathNplMsg());
+    client.write(writeNplMsg());
 });
 
 client.on('data', function (chunk) {
     console.log(`Data received from the server: ${chunk.toString()}.`);
 
-    client.end();
+    //client.end();
 });
 
 client.on('end', function () {
